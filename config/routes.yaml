@@ -1,3 +1,11 @@
 index:
    path: /
-   controller: Portfolier\Controller\PortfolierController::hello
+   controller: Portfolier\Controller\PortfolierController::index
+
+registration:
+  path: /registration/
+  controller: Portfolier\Controller\PortfolierController::registration
+
+login:
+  path: /login/
+  controller: Portfolier\Controller\PortfolierController::login
