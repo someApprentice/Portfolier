@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Response;
 
 use Portfolier\Entity\User;
@@ -72,7 +73,15 @@ class PortfolierController extends Controller
         $form = $this->createFormBuilder($user)
                   ->add('email', EmailType::class)
                   ->add('name', TextType::class)
-                  ->add('password', PasswordType::class)
+                  ->add('password', RepeatedType::class, [
+                      'type' => PasswordType::class,
+                      'invalid_message' => 'The password fields must match.',
+                      'required' => true,
+                      'first_name' => 'password',
+                      'first_options'  => ['label' => 'Password'],
+                      'second_name' => 'repeat-password',
+                      'second_options' => ['label' => 'Repeat Password']
+                  ])
                   ->add('save', SubmitType::class, ['label' => 'Register'])
                   ->getForm();
 
@@ -88,7 +97,7 @@ class PortfolierController extends Controller
                 return $this->redirectToRoute('index');
             }
 
-            return $this->render('login.html.twig', ['errors' => []]);
+            $form->get('email')->addError(new FormError("This User is already exist"));
         }
 
         return $this->render('registration.html.twig', ['form' => $form->createView()]);
@@ -131,7 +140,7 @@ class PortfolierController extends Controller
                 return $this->redirectToRoute('index');
             }
 
-            return $this->render('login.html.twig', ['errors' => []]);
+            $form->get('email')->addError(new FormError("The email or password is incorrect"));
         }
 
         return $this->render('login.html.twig', ['form' => $form->createView()]);

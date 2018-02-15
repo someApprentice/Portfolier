@@ -46,13 +46,6 @@ class User
      */
     private $hash = '';
 
-    /**
-     * @ORM\Column(type="string")
-     *
-     * @var string An User salt
-     */
-    private $salt = '';
-
 
     /**
      * @Assert\Length(min = 6)
@@ -153,30 +146,6 @@ class User
     public function setHash(string $hash): User
     {
         $this->hash = $hash;
-
-        return $this;
-    }
-
-    /**
-     * Get an User salt
-     *
-     * @return string
-     */
-    public function getSalt(): string
-    {
-        return $this->salt;
-    }
-
-    /**
-     * Set an User salt
-     *
-     * @param string $salt A salt
-     *
-     * @return Portfolier\Entity\User
-     */
-    public function setSalt(string $salt): User
-    {
-        $this->salt = $salt;
 
         return $this;
     }

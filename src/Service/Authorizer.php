@@ -34,10 +34,8 @@ class Authorizer
             return false;
         }
 
-        $salt = $this->generateSalt();
-        $hash = $this->generateHash($user->getPassword(), $salt);
+        $hash = password_hash($user->getPassword(), \PASSWORD_DEFAULT);
 
-        $user->setSalt($salt);
         $user->setHash($hash);
 
         $this->em->persist($user);
@@ -64,7 +62,7 @@ class Authorizer
             return false;
         }
 
-        if ($u->getHash() === $this->generateHash($user->getPassword(), $u->getSalt())) {
+        if (password_verify($user->getPassword(), $u->getHash())) {
             $this->createCookies($u);
 
             return $u;
@@ -137,30 +135,5 @@ class Authorizer
 
         setcookie('id', $user->getId(), time() + $expires, '/', null, null, true);
         setcookie('hash', $user->getHash(), time() + $expires, '/', null, null, true);
-    }
-
-    /**
-     * Generate salt for hashing a password
-     * 
-     * @return string
-     */
-    public function generateSalt(): string
-    {
-        $salt = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.*-^%$#@!?%&%_=+<>[]{}0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.*-^%$#@!?%&%_=+<>[]{}'), 0, 44);
-        
-        return $salt;
-    }
-
-    /**
-     * Hashing a password with a salt
-     *
-     * @param string $password A password
-     * @param string $salt A salt
-     * 
-     * @return string
-     */
-    public static function generateHash(string $password, string $salt): string
-    {
-        return md5($password . $salt);
     }
 }
