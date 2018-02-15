@@ -29,25 +29,29 @@ class PortfolierController extends Controller
 
         $authorizer = new Authorizer($em);
 
+        $logged = $authorizer->getLogged();
+
+        if (!$logged) {
+            $user = new User();
+
+            $loginForm = $this->createFormBuilder($user)
+                      ->setAction($this->generateUrl('login'))
+                      ->add('email', EmailType::class)
+                      ->add('password', PasswordType::class)
+                      ->add('login', SubmitType::class, ['label' => 'Login'])
+                      ->getForm();
+
+            return $this->render('login.html.twig', ['loginForm' => $loginForm->createView()]);
+        }
+
         $user = new User();
 
-        $form = $this->createFormBuilder($user)
-                  ->setAction($this->generateUrl('registration'))
-                  ->add('email', EmailType::class)
-                  ->add('name', TextType::class)
-                  ->add('password', RepeatedType::class, [
-                      'type' => PasswordType::class,
-                      'invalid_message' => 'The password fields must match.',
-                      'required' => true,
-                      'first_name' => 'password',
-                      'first_options'  => ['label' => 'Password'],
-                      'second_name' => 'repeat-password',
-                      'second_options' => ['label' => 'Repeat Password']
-                  ])
-                  ->add('save', SubmitType::class, ['label' => 'Register'])
+        $logoutForm = $this->createFormBuilder($user)
+                  ->setAction($this->generateUrl('logout'))
+                  ->add('logout', SubmitType::class, ['label' => 'Logout'])
                   ->getForm();
 
-        return $this->render('index.html.twig', ['form' => $form->createView()]);
+        return $this->render('index.html.twig', ['logged' => $logged, 'logoutForm' => $logoutForm->createView()]);
     }
 
 
@@ -70,7 +74,7 @@ class PortfolierController extends Controller
 
         $user = new User();
 
-        $form = $this->createFormBuilder($user)
+        $registrationForm = $this->createFormBuilder($user)
                   ->add('email', EmailType::class)
                   ->add('name', TextType::class)
                   ->add('password', RepeatedType::class, [
@@ -82,14 +86,14 @@ class PortfolierController extends Controller
                       'second_name' => 'repeat-password',
                       'second_options' => ['label' => 'Repeat Password']
                   ])
-                  ->add('save', SubmitType::class, ['label' => 'Register'])
+                  ->add('registration', SubmitType::class, ['label' => 'Register'])
                   ->getForm();
 
 
-        $form->handleRequest($request);
+        $registrationForm->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
+        if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
+            $user = $registrationForm->getData();
 
             $user = $authorizer->register($user);
 
@@ -97,10 +101,10 @@ class PortfolierController extends Controller
                 return $this->redirectToRoute('index');
             }
 
-            $form->get('email')->addError(new FormError("This User is already exist"));
+            $registrationForm->get('email')->addError(new FormError("This User is already exist"));
         }
 
-        return $this->render('registration.html.twig', ['form' => $form->createView()]);
+        return $this->render('registration.html.twig', ['registrationForm' => $registrationForm->createView()]);
     }
 
     /**
@@ -122,17 +126,17 @@ class PortfolierController extends Controller
 
         $user = new User();
 
-        $form = $this->createFormBuilder($user)
+        $loginForm = $this->createFormBuilder($user)
                   ->add('email', EmailType::class)
                   ->add('password', PasswordType::class)
-                  ->add('save', SubmitType::class, ['label' => 'Login'])
+                  ->add('login', SubmitType::class, ['label' => 'Login'])
                   ->getForm();
 
 
-        $form->handleRequest($request);
+        $loginForm->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
+        if ($loginForm->isSubmitted() && $loginForm->isValid()) {
+            $user = $loginForm->getData();
 
             $user = $authorizer->login($user);
 
@@ -140,9 +144,40 @@ class PortfolierController extends Controller
                 return $this->redirectToRoute('index');
             }
 
-            $form->get('email')->addError(new FormError("The email or password is incorrect"));
+            $loginForm->get('email')->addError(new FormError("The email or password is incorrect"));
         }
 
-        return $this->render('login.html.twig', ['form' => $form->createView()]);
+        return $this->render('login.html.twig', ['loginForm' => $loginForm->createView()]);
+    }
+
+    /**
+     * Logout the User
+     *
+     * @param Symfony\Component\HttpFoundation\Request $request HTTP request 
+     *
+     * @return Symfony\Component\HttpFoundation\Response 
+     */
+    public function logout(Request $request): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $authorizer = new Authorizer($em);
+
+        $logged = $authorizer->getLogged();
+
+        if ($logged) {
+            $logoutForm = $this->createFormBuilder($logged)
+                      ->add('logout', SubmitType::class, ['label' => 'logout'])
+                      ->getForm();
+
+
+            $logoutForm->handleRequest($request);
+
+            if ($logoutForm->isSubmitted() && $logoutForm->isValid()) {
+                $authorizer->logout();
+            }
+        }
+
+        return $this->redirectToRoute('index');
     }
 }

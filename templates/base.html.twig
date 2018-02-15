@@ -8,6 +8,14 @@
     <body>
         {% block body %}
             <h1><a href="/">Portfolier</a></h1>
+
+            {% if logged is defined %}
+                <b>{{ logged.getName }}</b>
+
+                {{ form_start(logoutForm) }}
+                {{ form_widget(logoutForm) }}
+                {{ form_end(logoutForm) }}
+            {% endif %}
         {% endblock %}
         
         {% block javascripts %}{% endblock %}

@@ -5,8 +5,11 @@
 
 {{ parent() }}
 
-{{ form_start(form) }}
-{{ form_widget(form) }}
-{{ form_end(form) }}
+{{ form_start(loginForm) }}
+{{ form_widget(loginForm) }}
+{{ form_end(loginForm) }}
+
+<a href="{{ path('registration') }}">Registration</a>
+
 
 {% endblock %}

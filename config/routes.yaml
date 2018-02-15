@@ -9,3 +9,7 @@ registration:
 login:
   path: /login/
   controller: Portfolier\Controller\PortfolierController::login
+
+logout:
+  path: /logout/
+  controller: Portfolier\Controller\PortfolierController::logout

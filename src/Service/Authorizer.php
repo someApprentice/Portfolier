@@ -95,7 +95,7 @@ class Authorizer
      */
     public function getLogged()
     {
-        if ($this->isLogedIn()) {
+        if ($this->isLoggedIn()) {
             $user = $this->em->getRepository(User::class)->find($_COOKIE['id']);
 
             return $user;
