@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    {{ parent() }}
+
+    {{ form_start(addStockForm) }}
+    {{ form_widget(addStockForm) }}
+    {{ form_end(addStockForm) }}
+{% endblock %}

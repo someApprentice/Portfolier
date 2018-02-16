@@ -37,7 +37,7 @@ class AuthorizationTest extends KernelTestCase
         $faker = \Faker\Factory::create();
 
         $email = $faker->email;
-        $name = $faker->firstName;
+        $name = $faker->userName;
         $password = $faker->password;
 
         $user = new User();
@@ -66,7 +66,7 @@ class AuthorizationTest extends KernelTestCase
         $faker = \Faker\Factory::create();
 
         $email = $faker->email;
-        $name = $faker->firstName;
+        $name = $faker->userName;
         $password = $faker->password;
 
         $user = new User();

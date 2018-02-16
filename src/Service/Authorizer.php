@@ -1,7 +1,7 @@
 <?php
 namespace Portfolier\Service;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 use Portfolier\Entity\User;
 
@@ -14,7 +14,7 @@ class Authorizer
      */
     private $em;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
     }
@@ -126,6 +126,8 @@ class Authorizer
 
     /**
      * Create an User cookies
+     *
+     * @param Portfolier\Entity\User $user An User entity
      *
      * @return void
      */

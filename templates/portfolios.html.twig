@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+
+    <h2>Portfolios</h2>
+
+    <div class="portfolios">
+        <a href="{{ path("new_portfolio") }}">Create a new Portfolio</a>
+
+        {% for portfolio in portfolios %}
+            <div class="portfolio">
+                <em>{{ portfolio.name }}</em>
+
+                <a href={{ path("edit_portfolio", {'id': portfolio.id}) }}>Edit</a>
+                <a href={{ path("delete_portfolio", {'id': portfolio.id}) }}>Delete</a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

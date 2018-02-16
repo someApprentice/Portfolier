@@ -14,47 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Portfolier\Entity\User;
 use Portfolier\Service\Authorizer;
 
-class PortfolierController extends Controller
+class AuthorizationController extends Controller
 {
-    /**
-     * Index page
-     *
-     * @param Symfony\Component\HttpFoundation\Request $request HTTP request 
-     *
-     * @return Symfony\Component\HttpFoundation\Response 
-     */
-    public function index(Request $request): Response
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $authorizer = new Authorizer($em);
-
-        $logged = $authorizer->getLogged();
-
-        if (!$logged) {
-            $user = new User();
-
-            $loginForm = $this->createFormBuilder($user)
-                      ->setAction($this->generateUrl('login'))
-                      ->add('email', EmailType::class)
-                      ->add('password', PasswordType::class)
-                      ->add('login', SubmitType::class, ['label' => 'Login'])
-                      ->getForm();
-
-            return $this->render('login.html.twig', ['loginForm' => $loginForm->createView()]);
-        }
-
-        $user = new User();
-
-        $logoutForm = $this->createFormBuilder($user)
-                  ->setAction($this->generateUrl('logout'))
-                  ->add('logout', SubmitType::class, ['label' => 'Logout'])
-                  ->getForm();
-
-        return $this->render('index.html.twig', ['logged' => $logged, 'logoutForm' => $logoutForm->createView()]);
-    }
-
-
     /**
      * Registration page
      *
@@ -64,9 +25,7 @@ class PortfolierController extends Controller
      */
     public function registration(Request $request): Response
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $authorizer = new Authorizer($em);
+        $authorizer = $this->container->get(Authorizer::class);
 
         if ($authorizer->isLoggedIn()) {
             return $this->redirectToRoute('index');
@@ -116,9 +75,7 @@ class PortfolierController extends Controller
      */
     public function login(Request $request): Response
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $authorizer = new Authorizer($em);
+        $authorizer = $this->container->get(Authorizer::class);
 
         if ($authorizer->isLoggedIn()) {
             return $this->redirectToRoute('index');
@@ -159,23 +116,12 @@ class PortfolierController extends Controller
      */
     public function logout(Request $request): Response
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $authorizer = new Authorizer($em);
+        $authorizer = $this->container->get(Authorizer::class);
 
         $logged = $authorizer->getLogged();
 
         if ($logged) {
-            $logoutForm = $this->createFormBuilder($logged)
-                      ->add('logout', SubmitType::class, ['label' => 'logout'])
-                      ->getForm();
-
-
-            $logoutForm->handleRequest($request);
-
-            if ($logoutForm->isSubmitted() && $logoutForm->isValid()) {
-                $authorizer->logout();
-            }
+            $authorizer->logout();
         }
 
         return $this->redirectToRoute('index');

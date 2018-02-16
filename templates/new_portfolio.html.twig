@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    {{ parent() }}
+
+    {{ form_start(newPortfolioForm) }}
+    {{ form_widget(newPortfolioForm) }}
+    {{ form_end(newPortfolioForm) }}
+{% endblock %}

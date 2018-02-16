@@ -2,14 +2,11 @@
 
 
 {% block body %}
+    {{ parent() }}
 
-{{ parent() }}
+    {{ form_start(loginForm) }}
+    {{ form_widget(loginForm) }}
+    {{ form_end(loginForm) }}
 
-{{ form_start(loginForm) }}
-{{ form_widget(loginForm) }}
-{{ form_end(loginForm) }}
-
-<a href="{{ path('registration') }}">Registration</a>
-
-
+    <a href="{{ path('registration') }}">Registration</a>
 {% endblock %}

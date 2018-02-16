@@ -46,6 +46,61 @@ CREATE TABLE migration_versions (
 ALTER TABLE migration_versions OWNER TO portfolier;
 
 --
+-- Name: portfolio; Type: TABLE; Schema: public; Owner: portfolier
+--
+
+CREATE TABLE portfolio (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    name character varying(255) NOT NULL
+);
+
+
+ALTER TABLE portfolio OWNER TO portfolier;
+
+--
+-- Name: portfolio_id_seq; Type: SEQUENCE; Schema: public; Owner: portfolier
+--
+
+CREATE SEQUENCE portfolio_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE portfolio_id_seq OWNER TO portfolier;
+
+--
+-- Name: stock; Type: TABLE; Schema: public; Owner: portfolier
+--
+
+CREATE TABLE stock (
+    id integer NOT NULL,
+    portfolio_id integer NOT NULL,
+    symbol character varying(255) NOT NULL,
+    date timestamp(0) with time zone NOT NULL
+);
+
+
+ALTER TABLE stock OWNER TO portfolier;
+
+--
+-- Name: stock_id_seq; Type: SEQUENCE; Schema: public; Owner: portfolier
+--
+
+CREATE SEQUENCE stock_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE stock_id_seq OWNER TO portfolier;
+
+--
 -- Name: user; Type: TABLE; Schema: public; Owner: portfolier
 --
 
@@ -53,8 +108,7 @@ CREATE TABLE "user" (
     id integer NOT NULL,
     email character varying(255) NOT NULL,
     name character varying(255) NOT NULL,
-    hash character varying(255) NOT NULL,
-    salt character varying(255) NOT NULL
+    hash character varying(255) NOT NULL
 );
 
 
@@ -83,11 +137,41 @@ ALTER TABLE ONLY migration_versions
 
 
 --
+-- Name: portfolio portfolio_pkey; Type: CONSTRAINT; Schema: public; Owner: portfolier
+--
+
+ALTER TABLE ONLY portfolio
+    ADD CONSTRAINT portfolio_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: stock stock_pkey; Type: CONSTRAINT; Schema: public; Owner: portfolier
+--
+
+ALTER TABLE ONLY stock
+    ADD CONSTRAINT stock_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: user user_pkey; Type: CONSTRAINT; Schema: public; Owner: portfolier
 --
 
 ALTER TABLE ONLY "user"
     ADD CONSTRAINT user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: idx_4b365660b96b5643; Type: INDEX; Schema: public; Owner: portfolier
+--
+
+CREATE INDEX idx_4b365660b96b5643 ON stock USING btree (portfolio_id);
+
+
+--
+-- Name: idx_a9ed1062a76ed395; Type: INDEX; Schema: public; Owner: portfolier
+--
+
+CREATE INDEX idx_a9ed1062a76ed395 ON portfolio USING btree (user_id);
 
 
 --
@@ -102,6 +186,22 @@ CREATE UNIQUE INDEX uniq_8d93d6495e237e06 ON "user" USING btree (name);
 --
 
 CREATE UNIQUE INDEX uniq_8d93d649e7927c74 ON "user" USING btree (email);
+
+
+--
+-- Name: stock fk_4b365660b96b5643; Type: FK CONSTRAINT; Schema: public; Owner: portfolier
+--
+
+ALTER TABLE ONLY stock
+    ADD CONSTRAINT fk_4b365660b96b5643 FOREIGN KEY (portfolio_id) REFERENCES portfolio(id) ON DELETE CASCADE;
+
+
+--
+-- Name: portfolio fk_a9ed1062a76ed395; Type: FK CONSTRAINT; Schema: public; Owner: portfolier
+--
+
+ALTER TABLE ONLY portfolio
+    ADD CONSTRAINT fk_a9ed1062a76ed395 FOREIGN KEY (user_id) REFERENCES "user"(id) ON DELETE CASCADE;
 
 
 --

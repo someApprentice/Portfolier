@@ -10,12 +10,13 @@
             <h1><a href="/">Portfolier</a></h1>
 
             {% if logged is defined %}
-                <b>{{ logged.getName }}</b>
-
-                {{ form_start(logoutForm) }}
-                {{ form_widget(logoutForm) }}
-                {{ form_end(logoutForm) }}
+                <form name="logout-form" method="post" action="/logout/">
+                    <b>{{ logged.getName }}</b>
+                    <input type="submit" name="logout" value="Logout">
+                </form>
             {% endif %}
+
+            <a href="{{ path('portfolios') }}">Portfolios</a>
         {% endblock %}
         
         {% block javascripts %}{% endblock %}

@@ -1,15 +1,43 @@
 index:
-   path: /
-   controller: Portfolier\Controller\PortfolierController::index
+  path: /
+  controller: Portfolier\Controller\IndexController::index
 
 registration:
   path: /registration/
-  controller: Portfolier\Controller\PortfolierController::registration
+  controller: Portfolier\Controller\AuthorizationController::registration
 
 login:
   path: /login/
-  controller: Portfolier\Controller\PortfolierController::login
+  controller: Portfolier\Controller\AuthorizationController::login
 
 logout:
   path: /logout/
-  controller: Portfolier\Controller\PortfolierController::logout
+  controller: Portfolier\Controller\AuthorizationController::logout
+
+new_portfolio:
+  path: /portfolio/new/
+  controller: Portfolier\Controller\PortfolioController::new
+
+portfolios:
+  path: /portfolios/
+  controller: Portfolier\Controller\PortfolioController::portfolios
+
+edit_portfolio:
+  path: /portfolio/edit/{id}/
+  controller: Portfolier\Controller\PortfolioController::edit
+
+delete_portfolio:
+  path: /portfolio/delete/{id}/
+  controller: Portfolier\Controller\PortfolioController::delete
+
+add_stock:
+  path: /portfolio/edit/{portfolio_id}/stock/add
+  controller: Portfolier\Controller\StockController::add
+
+edit_stock:
+  path: /portfolio/edit/{portfolio_id}/stock/edit/{stock_id}
+  controller: Portfolier\Controller\StockController::edit
+
+delete_stock:
+  path: /portfolio/edit/{portfolio_id}/stock/delete/{stock_id}
+  controller: Portfolier\Controller\StockController::delete

@@ -54,6 +54,12 @@ class User
      */
     private $password = '';
 
+
+    /**
+     * @ORM\OneToMany(targetEntity="Portfolio", mappedBy="user", cascade={"all"})
+     */
+    private $portfolios;
+
     /**
      * Get an User ID
      *

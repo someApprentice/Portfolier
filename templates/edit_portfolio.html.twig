@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    {{ parent() }}
+
+    {{ form_start(editPortfolioForm) }}
+    {{ form_widget(editPortfolioForm) }}
+    {{ form_end(editPortfolioForm) }}
+
+    <a href="{{ path('delete_portfolio', {'id': portfolio.id}) }}">Delete Portfolio</a>
+
+    <div class="stocks">
+        <h3>Stocks</h3>
+
+        <a href="{{ path('add_stock', {'portfolio_id': portfolio.id}) }}">Add Stock</a>
+
+        <ul>        
+            {% for stock in stocks %}
+                <li>
+                    {{ stock.symbol }} 
+                    <a href="{{ path('edit_stock', {'portfolio_id': portfolio.id, 'stock_id': stock.id}) }}">Edit</a>
+                    <a href="{{ path('delete_stock', {'portfolio_id': portfolio.id, 'stock_id': stock.id}) }}">Delete</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
