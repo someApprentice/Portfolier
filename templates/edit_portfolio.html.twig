@@ -16,7 +16,7 @@
         <a href="{{ path('add_stock', {'portfolio_id': portfolio.id}) }}">Add Stock</a>
 
         <ul>        
-            {% for stock in stocks %}
+            {% for stock in portfolio.stocks %}
                 <li>
                     {{ stock.symbol }} 
                     <a href="{{ path('edit_stock', {'portfolio_id': portfolio.id, 'stock_id': stock.id}) }}">Edit</a>

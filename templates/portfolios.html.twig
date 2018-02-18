@@ -8,7 +8,7 @@
     <div class="portfolios">
         <a href="{{ path("new_portfolio") }}">Create a new Portfolio</a>
 
-        {% for portfolio in portfolios %}
+        {% for portfolio in logged.portfolios %}
             <div class="portfolio">
                 <em>{{ portfolio.name }}</em>
 

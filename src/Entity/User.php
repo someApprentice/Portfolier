@@ -4,6 +4,8 @@ namespace Portfolier\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Portfolier\Entity\Portfolio;
+
 /**
  * @ORM\Entity(repositoryClass="Portfolier\Repository\UserRepository")
  * @ORM\Table(name="`user`")
@@ -176,6 +178,18 @@ class User
     public function setPassword(string $password): User
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getPortfolios()
+    {
+        return $this->portfolios;
+    }
+
+    public function setPortfolios(array $portfolios): User
+    {
+        $this->portfolios = $portfolios;
 
         return $this;
     }

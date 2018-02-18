@@ -270,5 +270,4 @@ class PortfolierTest extends KernelTestCase
 
         $this->assertNull($stock);
     }
-
 }

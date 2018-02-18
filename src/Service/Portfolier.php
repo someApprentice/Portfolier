@@ -3,7 +3,8 @@ namespace Portfolier\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-use Portfolier\Source\GoogleFinanceSource;
+use Portfolier\Factory\GoogleFinanceFactory; //remove to collection
+use Portfolier\Source\GoogleFinanceSource; //remove to collection
 use Portfolier\Entity\Quotations\PortfolioQuotations;
 use Portfolier\Entity\User;
 use Portfolier\Entity\Portfolio;
@@ -20,10 +21,9 @@ class Portfolier
 
     private $source;
 
-    public function __construct(EntityManagerInterface $em, GoogleFinanceSource $source)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-        $this->source = $source;
     }
 
     /**
@@ -35,7 +35,8 @@ class Portfolier
      */
     public function getQuotations(Portfolio $portfolio): array
     {
-        $source = $this->source;
+        $factory = new GoogleFinanceFactory(); //remove to collection
+        $source = new GoogleFinanceSource($factory); //remove to collection
 
         $quotations = [];
 

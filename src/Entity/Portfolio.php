@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Portfolier\Entity\User;
+use Portfolier\Entity\Stock;
 
 /**
  * @ORM\Entity(repositoryClass="Portfolier\Repository\PortfolioRepository")

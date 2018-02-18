@@ -62,7 +62,7 @@ class PortfolioController extends Controller
 
         $portfolios = $portfolier->getUserPortfolios($logged);
 
-        return $this->render('portfolios.html.twig', ['logged' => $logged, 'portfolios' => $portfolios]);
+        return $this->render('portfolios.html.twig', ['logged' => $logged]);
     }
 
     public function edit(Request $request, $id): Response
@@ -101,9 +101,7 @@ class PortfolioController extends Controller
             }
         }
 
-        $stocks = $portfolier->getPortfolioStocks($portfolio);
-
-        return $this->render('edit_portfolio.html.twig', ['logged' => $logged, 'portfolio' => $portfolio, 'stocks' => $stocks, 'editPortfolioForm' => $editPortfolioForm->createView()]);
+        return $this->render('edit_portfolio.html.twig', ['logged' => $logged, 'portfolio' => $portfolio, 'editPortfolioForm' => $editPortfolioForm->createView()]);
     }
 
     public function delete(Request $request, $id): Response
