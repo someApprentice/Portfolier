@@ -5,6 +5,7 @@
         "php": "^7.1.3",
         "ext-iconv": "*",
         "fzaninotto/faker": "^1.7",
+        "guzzlehttp/guzzle": "^6.3",
         "symfony/console": "^4.0",
         "symfony/flex": "^1.0",
         "symfony/form": "^4.0",
@@ -62,7 +63,7 @@
     "extra": {
         "symfony": {
             "id": "01C69M8D61YR70VZZ4VH2YDGRD",
-            "allow-contrib": false
+            "allow-contrib": "true"
         }
     }
 }

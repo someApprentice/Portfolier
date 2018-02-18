@@ -16,7 +16,7 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     Portfolier\:
         resource: '../src/*'
-        exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'
+        exclude: '../src/{Entity,Migrations,Tests,Source,Kernel.php}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -32,3 +32,9 @@ services:
 
     Portfolier\Service\Portfolier:
          public: true
+
+    Portfolier\Source\SourceInterface:
+        public: true
+
+    Portfolier\Source\GoogleFinanceSource:
+        public: true

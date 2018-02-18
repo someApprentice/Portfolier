@@ -3,6 +3,8 @@ namespace Portfolier\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 
+use Portfolier\Source\GoogleFinanceSource;
+use Portfolier\Entity\Quotations\PortfolioQuotations;
 use Portfolier\Entity\User;
 use Portfolier\Entity\Portfolio;
 use Portfolier\Entity\Stock;
@@ -16,11 +18,79 @@ class Portfolier
      */
     private $em;
 
-    public function __construct(EntityManagerInterface $em)
+    private $source;
+
+    public function __construct(EntityManagerInterface $em, GoogleFinanceSource $source)
     {
         $this->em = $em;
+        $this->source = $source;
     }
 
+    /**
+     * Calculate a Portfolio quotations of all contained in it Stocks
+     *
+     * @param Portfolier\Entity\Portfolio $portfolio A Portfolio
+     *
+     * @return array An array of a PortfolioQuotations entities sorted by exchange of Stocks
+     */
+    public function getQuotations(Portfolio $portfolio): array
+    {
+        $source = $this->source;
+
+        $quotations = [];
+
+        $stocks = $portfolio->getStocks();
+
+        foreach ($stocks as $stock) {
+            $q = $source->getQuotations($stock);
+
+            foreach ($q->getQuotations() as $key => $quotation) {
+                if (array_key_exists($q->getExchange(), $quotations)) {
+                    if (isset(
+                        $quotations[$q->getExchange()]->getQuotations()[$key]['date'],
+                        $quotations[$q->getExchange()]->getQuotations()[$key]['close'],
+                        $quotations[$q->getExchange()]->getQuotations()[$key]['hight'],
+                        $quotations[$q->getExchange()]->getQuotations()[$key]['low'],
+                        $quotations[$q->getExchange()]->getQuotations()[$key]['open'],
+                        $quotations[$q->getExchange()]->getQuotations()[$key]['value']
+                        )
+                    ) {
+                        $close = $quotations[$q->getExchange()]->getQuotations()[$key]['close'];
+                        $hight = $quotations[$q->getExchange()]->getQuotations()[$key]['hight'];
+                        $low = $quotations[$q->getExchange()]->getQuotations()[$key]['low'];
+                        $open = $quotations[$q->getExchange()]->getQuotations()[$key]['open'];
+                        $value = $quotations[$q->getExchange()]->getQuotations()[$key]['value'];
+
+                        $date = $quotation['date'];
+                        $close += $quotation['close'];
+                        $hight += $quotation['hight'];
+                        $low += $quotation['low'];
+                        $open += $quotation['open'];
+                        $value += $quotation['value'];
+
+                        $quotations[$q->getExchange()]->setQuotation($key, [
+                            'date' => $date,
+                            'close' => $close,
+                            'hight' => $hight,
+                            'low' => $low,
+                            'open' => $open,
+                            'value' => $value
+                        ]);
+                    } else {
+                        $quotations[$q->getExchange()]->setQuotation($key, $quotation);
+                    }
+                } else {
+                    $portfolioQuotations = new PortfolioQuotations();
+                    $portfolioQuotations->setExchange($q->getExchange());
+                    $portfolioQuotations->setQuotation($key, $quotation);
+                    
+                    $quotations[$q->getExchange()] = $portfolioQuotations;
+                }
+            }
+        }
+
+        return $quotations;
+    }
 
     /**
      * Get a Portfolio by ID

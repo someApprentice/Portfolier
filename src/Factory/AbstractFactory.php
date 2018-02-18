@@ -1,16 +1,16 @@
 <?php
 namespace Portfolier\Factory;
 
-use Portfolier\Entity\SourceResult\AbstractResult;
+use Portfolier\Entity\Quotations\AbstractQuotations;
 
 abstract class AbstractFactory
 {
     /**
-     * Fabricate a Result entity from a response text of a Source
+     * Fabricate a Quotations entity from a response text of a Source
      *
      * @param string $r A text response of a Source
      *
-     * @return Portfolier\Entity\AbstractResult;
+     * @return Portfolier\Entity\Quotations\AbstractQuotations;
      */
-    abstract public function createResultFromSourceResponse(string $r): AbstractResult;
+    abstract public function createQuotations(string $r): AbstractQuotations;
 }

@@ -2,7 +2,7 @@
 namespace Portfolier\Source;
 
 use Portfolier\Entity\Stock;
-use Portfolier\Entity\SourceResult\AbstractResult;
+use Portfolier\Entity\Quotations\AbstractQuotations;
 
 interface SourceInterface
 {
@@ -11,7 +11,7 @@ interface SourceInterface
      *
      * @param Portfolier\Entity\Stock $stock A Stock entity which contain all necessary information
      * 
-     * @return Portfolier\Entity\SourceResult\AbstractResult
+     * @return Portfolier\Entity\Quotations\AbstractQuotations
      */
-    public function getQuotations(Stock $stock);//: AbstractResult; 
+    public function getQuotations(Stock $stock): AbstractQuotations; 
 }

@@ -133,7 +133,7 @@ class Stock
      */
     public function setDate(): Stock
     {
-        $this->date = new \Datetime("now");
+        $this->date = new \DateTime("now");
 
         return $this;
     }
