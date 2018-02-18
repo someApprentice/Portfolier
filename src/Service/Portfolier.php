@@ -50,21 +50,21 @@ class Portfolier
                     if (isset(
                         $quotations[$q->getExchange()]->getQuotations()[$key]['date'],
                         $quotations[$q->getExchange()]->getQuotations()[$key]['close'],
-                        $quotations[$q->getExchange()]->getQuotations()[$key]['hight'],
+                        $quotations[$q->getExchange()]->getQuotations()[$key]['high'],
                         $quotations[$q->getExchange()]->getQuotations()[$key]['low'],
                         $quotations[$q->getExchange()]->getQuotations()[$key]['open'],
                         $quotations[$q->getExchange()]->getQuotations()[$key]['value']
                         )
                     ) {
                         $close = $quotations[$q->getExchange()]->getQuotations()[$key]['close'];
-                        $hight = $quotations[$q->getExchange()]->getQuotations()[$key]['hight'];
+                        $high = $quotations[$q->getExchange()]->getQuotations()[$key]['high'];
                         $low = $quotations[$q->getExchange()]->getQuotations()[$key]['low'];
                         $open = $quotations[$q->getExchange()]->getQuotations()[$key]['open'];
                         $value = $quotations[$q->getExchange()]->getQuotations()[$key]['value'];
 
                         $date = $quotation['date'];
                         $close += $quotation['close'];
-                        $hight += $quotation['hight'];
+                        $high += $quotation['high'];
                         $low += $quotation['low'];
                         $open += $quotation['open'];
                         $value += $quotation['value'];
@@ -72,7 +72,7 @@ class Portfolier
                         $quotations[$q->getExchange()]->setQuotation($key, [
                             'date' => $date,
                             'close' => $close,
-                            'hight' => $hight,
+                            'high' => $high,
                             'low' => $low,
                             'open' => $open,
                             'value' => $value

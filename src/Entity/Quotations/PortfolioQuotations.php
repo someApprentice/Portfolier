@@ -100,7 +100,7 @@ class PortfolioQuotations extends AbstractPortfolioQuotations
      * Set a quotation by the key
      *
      * @param int|string $key A key of a quotation
-     * @param array $quotation A quotation array with the data, close, hight, low, open, values keys
+     * @param array $quotation A quotation array with the data, close, high, low, open, values keys
      * 
      * @return Portfolier\Entity\Quotations\AbstractPortfolioQuotations
      */

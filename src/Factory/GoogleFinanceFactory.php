@@ -25,7 +25,7 @@ class GoogleFinanceFactory extends AbstractFactory
                 [
                     'date' => new \DateTime("now"),
                     'close' => 0,
-                    'hight' => 0,
+                    'high' => 0,
                     'low' => 0,
                     'open' => 0,
                     'value' => 0
@@ -56,7 +56,7 @@ class GoogleFinanceFactory extends AbstractFactory
                     $quotations[] = [
                         'date' => $date,
                         'close' => $matches[2],
-                        'hight' => $matches[4],
+                        'high' => $matches[4],
                         'low' => $matches[6],
                         'open' => $matches[8],
                         'value' => $matches[10]

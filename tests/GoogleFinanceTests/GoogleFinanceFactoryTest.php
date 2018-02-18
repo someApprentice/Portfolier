@@ -1,14 +1,8 @@
 <?php
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-use Doctrine\ORM\EntityManager;
-
 use GuzzleHttp\Client;
 
-use Portfolier\Service\Portfolier;
-use Portfolier\Service\Authorizer;
-use Portfolier\Entity\User;
-use Portfolier\Entity\Portfolio;
 use Portfolier\Entity\Stock;
 use Portfolier\Entity\Quotations\GoogleFinanceQuotations;
 use Portfolier\Factory\GoogleFinanceFactory;
