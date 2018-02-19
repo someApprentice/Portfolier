@@ -109,7 +109,6 @@ class Portfolier
      * @param Portfolier\Entity\Portfolio $portfolio A Portfolio
      *
      * @return void
-     *
      */
     public function removePortfolio(Portfolio $portfolio)
     {

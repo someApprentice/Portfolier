@@ -14,6 +14,14 @@ use Portfolier\Entity\Stock;
 
 class StockController extends Controller
 {
+    /**
+     * Page to adding a new Stock to the Portfolio
+     *
+     * @param Symfony\Component\HttpFoundation\Request $request HTTP request
+     * @param int $portfolio_id An ID of the Portfolio
+     *
+     * @return Symfony\Component\HttpFoundation\Response 
+     */
     public function add(Request $request, $portfolio_id): Response
     {
         $authorizer = $this->container->get(Authorizer::class);
@@ -56,6 +64,15 @@ class StockController extends Controller
         return $this->render('add_stock.html.twig', ['logged' => $logged, 'addStockForm' => $addStockForm->createView()]);
     }
 
+    /**
+     * Page for edeting a Stock to the Portfolio
+     *
+     * @param Symfony\Component\HttpFoundation\Request $request HTTP request
+     * @param int $portfolio_id An ID of the Portfolio
+     * @param int $stock_id An ID of the Stock
+     *
+     * @return Symfony\Component\HttpFoundation\Response 
+     */
     public function edit(Request $request, $portfolio_id, $stock_id): Response
     {
         $authorizer = $this->container->get(Authorizer::class);
@@ -99,6 +116,15 @@ class StockController extends Controller
         return $this->render('add_stock.html.twig', ['logged' => $logged, 'addStockForm' => $editStockForm->createView()]);
     }
 
+    /**
+     * Deletion Stock controller from the Portfolio
+     *
+     * @param Symfony\Component\HttpFoundation\Request $request HTTP request
+     * @param int $portfolio_id An ID of the Portfolio
+     * @param int $stock_id An ID of the Stock
+     *
+     * @return Symfony\Component\HttpFoundation\Response 
+     */
     public function delete(Request $request, $portfolio_id, $stock_id): Response
     {
         $authorizer = $this->container->get(Authorizer::class);

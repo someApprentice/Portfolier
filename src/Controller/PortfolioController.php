@@ -14,6 +14,13 @@ use Portfolier\Entity\Portfolio;
 
 class PortfolioController extends Controller
 {
+    /**
+     * New Portfolio creation page
+     *
+     * @param Symfony\Component\HttpFoundation\Request $request HTTP request 
+     *
+     * @return Symfony\Component\HttpFoundation\Response 
+     */
     public function new(Request $request): Response
     {
         $authorizer = $this->container->get(Authorizer::class);
@@ -49,6 +56,13 @@ class PortfolioController extends Controller
         return $this->render('new_portfolio.html.twig', ['logged' => $logged, 'newPortfolioForm' => $newPortfolioForm->createView()]);
     }
 
+    /**
+     * Page with all user Portfolios
+     *
+     * @param Symfony\Component\HttpFoundation\Request $request HTTP request 
+     *
+     * @return Symfony\Component\HttpFoundation\Response 
+     */
     public function portfolios(Request $request): Response
     {
         $authorizer = $this->container->get(Authorizer::class);
@@ -64,6 +78,14 @@ class PortfolioController extends Controller
         return $this->render('portfolios.html.twig', ['logged' => $logged]);
     }
 
+    /**
+     * Page of the exact Portfolio
+     *
+     * @param Symfony\Component\HttpFoundation\Request $request HTTP request 
+     * @param int $id An ID of the Portfolio
+     *
+     * @return Symfony\Component\HttpFoundation\Response 
+     */
     public function portfolio(Request $request, $id): Response
     {
         $authorizer = $this->container->get(Authorizer::class);
@@ -93,6 +115,14 @@ class PortfolioController extends Controller
         return $this->render('portfolio.html.twig', ['logged' => $logged, 'portfolio' => $portfolio, 'quotations' => $quotations]);
     }
 
+    /**
+     * Portfolio editing page
+     *
+     * @param Symfony\Component\HttpFoundation\Request $request HTTP request 
+     * @param int $id An ID of the Portfolio
+     *
+     * @return Symfony\Component\HttpFoundation\Response 
+     */
     public function edit(Request $request, $id): Response
     {
         $authorizer = $this->container->get(Authorizer::class);
@@ -132,6 +162,14 @@ class PortfolioController extends Controller
         return $this->render('edit_portfolio.html.twig', ['logged' => $logged, 'portfolio' => $portfolio, 'editPortfolioForm' => $editPortfolioForm->createView()]);
     }
 
+    /**
+     * Deletion Portfolio contoller
+     *
+     * @param Symfony\Component\HttpFoundation\Request $request HTTP request 
+     * @param int $id An ID of the Portfolio
+     *
+     * @return Symfony\Component\HttpFoundation\Response 
+     */
     public function delete(Request $request, $id): Response
     {
         $authorizer = $this->container->get(Authorizer::class);
