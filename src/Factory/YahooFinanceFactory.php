@@ -18,10 +18,12 @@ class YahooFinanceFactory extends AbstractFactory
     {
         $json = json_decode($r, true);
 
+        $quotations = [];
+
         if ($json['chart']['error']['code'] == "Not Found") {
             $exchange = "UNKNOWN";
 
-            $quotations = [
+            $quotations[] = [
                 'date' => new \DateTime("now"),
                 'close' => 0,
                 'high' => 0,
@@ -41,7 +43,7 @@ class YahooFinanceFactory extends AbstractFactory
                 $quotations[$key] = [
                     'date' => $date,
                     'close' => $json['chart']['result'][0]['indicators']['quote'][0]['close'][$key],
-                    'hight' => $json['chart']['result'][0]['indicators']['quote'][0]['high'][$key],
+                    'high' => $json['chart']['result'][0]['indicators']['quote'][0]['high'][$key],
                     'low' => $json['chart']['result'][0]['indicators']['quote'][0]['low'][$key],
                     'open' => $json['chart']['result'][0]['indicators']['quote'][0]['open'][$key],
                     'value' => $json['chart']['result'][0]['indicators']['quote'][0]['volume'][$key]

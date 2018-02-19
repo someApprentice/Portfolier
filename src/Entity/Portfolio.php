@@ -7,6 +7,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 use Portfolier\Entity\User;
 use Portfolier\Entity\Stock;
+use Portfolier\Entity\Quotations\PortfolioQuotations;
+use Portfolier\Source\SourceInterface;
 
 /**
  * @ORM\Entity(repositoryClass="Portfolier\Repository\PortfolioRepository")
@@ -43,6 +45,70 @@ class Portfolio
      * @ORM\OneToMany(targetEntity="Stock", mappedBy="portfolio", cascade={"all"})
      */
     private $stocks;
+
+    /**
+     * Calculate a Portfolio quotations of all contained Stocks in it
+     *
+     * @param Portfolier\Source\SourceInterface $source A Source Entity
+     *
+     * @return array An array of a PortfolioQuotations entities sorted by exchange of Stocks
+     */
+    public function getQuotations(SourceInterface $source): array
+    {
+        $quotations = [];
+
+        $stocks = $this->stocks;
+
+        foreach ($stocks as $stock) {
+            $q = $source->getQuotations($stock);
+
+            foreach ($q->getQuotations() as $key => $quotation) {
+                if (array_key_exists($q->getExchange(), $quotations)) {
+                    if (isset(
+                        $quotations[$q->getExchange()]->getQuotations()[$key]['date'],
+                        $quotations[$q->getExchange()]->getQuotations()[$key]['close'],
+                        $quotations[$q->getExchange()]->getQuotations()[$key]['high'],
+                        $quotations[$q->getExchange()]->getQuotations()[$key]['low'],
+                        $quotations[$q->getExchange()]->getQuotations()[$key]['open'],
+                        $quotations[$q->getExchange()]->getQuotations()[$key]['value']
+                        )
+                    ) {
+                        $close = $quotations[$q->getExchange()]->getQuotations()[$key]['close'];
+                        $high = $quotations[$q->getExchange()]->getQuotations()[$key]['high'];
+                        $low = $quotations[$q->getExchange()]->getQuotations()[$key]['low'];
+                        $open = $quotations[$q->getExchange()]->getQuotations()[$key]['open'];
+                        $value = $quotations[$q->getExchange()]->getQuotations()[$key]['value'];
+
+                        $date = $quotation['date'];
+                        $close += $quotation['close'];
+                        $high += $quotation['high'];
+                        $low += $quotation['low'];
+                        $open += $quotation['open'];
+                        $value += $quotation['value'];
+
+                        $quotations[$q->getExchange()]->setQuotation($key, [
+                            'date' => $date,
+                            'close' => $close,
+                            'high' => $high,
+                            'low' => $low,
+                            'open' => $open,
+                            'value' => $value
+                        ]);
+                    } else {
+                        $quotations[$q->getExchange()]->setQuotation($key, $quotation);
+                    }
+                } else {
+                    $portfolioQuotations = new PortfolioQuotations();
+                    $portfolioQuotations->setExchange($q->getExchange());
+                    $portfolioQuotations->setQuotation($key, $quotation);
+                    
+                    $quotations[$q->getExchange()] = $portfolioQuotations;
+                }
+            }
+        }
+
+        return $quotations;
+    }
 
     /**
      * Get a Portfolio ID

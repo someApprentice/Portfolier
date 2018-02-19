@@ -10,8 +10,16 @@ use Portfolier\Entity\Quotations\AbstractQuotations;
 
 class YahooFinanceSource implements SourceInterface
 {
+    const NAME = "YahooFinance";
+
+    /**
+     * @var Portfolier\Factory\YahooFinanceFactory
+     */
     protected $factory;
 
+    /**
+     * @param Portfolier\Factory\YahooFinanceFactory
+     */
     public function __construct(YahooFinanceFactory $factory)
     {
         $this->factory = $factory;
@@ -45,5 +53,15 @@ class YahooFinanceSource implements SourceInterface
         $quotations->setStock($stock);
 
         return $quotations;
+    }
+
+    /**
+     * Get the name constant of the source
+     *
+     * @return string The name constant
+     */
+    public function getName(): string
+    {
+        return self::NAME;
     }
 }

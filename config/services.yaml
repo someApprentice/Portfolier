@@ -32,9 +32,14 @@ services:
 
     Portfolier\Service\Portfolier:
          public: true
-
-    Portfolier\Source\SourceInterface:
+        
+    Portfolier\Collection\SourceCollection:
         public: true
+
+        arguments: [!tagged source]
 
     Portfolier\Source\GoogleFinanceSource:
-        public: true
+        tags: [source]
+
+    Portfolier\Source\YahooFinanceSource:
+        tags: [source]

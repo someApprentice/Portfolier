@@ -3,8 +3,8 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 use Portfolier\Entity\Stock;
 use Portfolier\Entity\Quotations\GoogleFinanceQuotations;
-use Portfolier\Factory\GoogleFinanceFactory; //remove to collection
-use Portfolier\Source\GoogleFinanceSource; //remove to collection
+use Portfolier\Factory\GoogleFinanceFactory;
+use Portfolier\Source\GoogleFinanceSource;
 
 class GoogleFinanceSourceTest extends KernelTestCase
 {
@@ -14,8 +14,8 @@ class GoogleFinanceSourceTest extends KernelTestCase
         $stock->setSymbol("AAPL");
         $stock->setDate();
         
-        $factory = new GoogleFinanceFactory(); //remove to collection
-        $source = new GoogleFinanceSource($factory); //remove to collection
+        $factory = new GoogleFinanceFactory();
+        $source = new GoogleFinanceSource($factory);
 
         $qoutations = $source->getQuotations($stock);
 

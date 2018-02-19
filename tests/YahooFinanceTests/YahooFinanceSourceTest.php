@@ -3,8 +3,8 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 use Portfolier\Entity\Stock;
 use Portfolier\Entity\Quotations\YahooFinanceQuotations;
-use Portfolier\Factory\YahooFinanceFactory; //remove to collection
-use Portfolier\Source\YahooFinanceSource; //remove to collection
+use Portfolier\Factory\YahooFinanceFactory;
+use Portfolier\Source\YahooFinanceSource;
 
 class YahooFinanceSourceTest extends KernelTestCase
 {
@@ -14,8 +14,8 @@ class YahooFinanceSourceTest extends KernelTestCase
         $stock->setSymbol("AAPL");
         $stock->setDate();
         
-        $factory = new YahooFinanceFactory(); //remove to collection
-        $source = new YahooFinanceSource($factory); //remove to collection
+        $factory = new YahooFinanceFactory();
+        $source = new YahooFinanceSource($factory);
 
         $qoutations = $source->getQuotations($stock);
 

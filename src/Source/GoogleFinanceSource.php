@@ -10,8 +10,16 @@ use Portfolier\Entity\Quotations\AbstractQuotations;
 
 class GoogleFinanceSource implements SourceInterface
 {
+    const NAME = "GoogleFinance";
+
+    /**
+     * @var Portfolier\Factory\GoogleFinanceFactory
+     */
     protected $factory;
 
+    /**
+     * @param Portfolier\Factory\GoogleFinanceFactory
+     */
     public function __construct(GoogleFinanceFactory $factory)
     {
         $this->factory = $factory;
@@ -37,5 +45,15 @@ class GoogleFinanceSource implements SourceInterface
         $quotations->setStock($stock);
 
         return $quotations;
+    }
+
+    /**
+     * Get the name constant of the source
+     *
+     * @return string The name constant
+     */
+    public function getName(): string
+    {
+        return self::NAME;
     }
 }

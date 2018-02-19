@@ -18,23 +18,21 @@ class GoogleFinanceFactory extends AbstractFactory
     {
         $array = str_getcsv($r, "\n");
 
+        $quotations = [];
+
         if ($array[0] == "EXCHANGE%3DLON" or $array[0] == "EXCHANGE%3DUNKNOWN+EXCHANGE") {
             $exchange = "UNKNOWN";
 
-            $quotations = [
-                [
-                    'date' => new \DateTime("now"),
-                    'close' => 0,
-                    'high' => 0,
-                    'low' => 0,
-                    'open' => 0,
-                    'value' => 0
-                ]
+            $quotations[] = [
+                'date' => new \DateTime("now"),
+                'close' => 0,
+                'high' => 0,
+                'low' => 0,
+                'open' => 0,
+                'value' => 0
             ];
         } else {
             $exchange = substr($array[0], 11);
-
-            $quotations = [];
 
             for ($i = 7; $i < count($array); $i++) {
                 $matches = [];

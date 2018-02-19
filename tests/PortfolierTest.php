@@ -10,6 +10,7 @@ use Portfolier\Entity\Stock;
 use Portfolier\Entity\User;
 use Portfolier\Service\Portfolier;
 use Portfolier\Service\Authorizer;
+use Portfolier\Collection\SourceCollection;
 
 class PortfolierTest extends KernelTestCase
 {
