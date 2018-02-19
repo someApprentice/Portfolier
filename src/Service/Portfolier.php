@@ -3,9 +3,6 @@ namespace Portfolier\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-use Portfolier\Factory\GoogleFinanceFactory; //remove to collection
-use Portfolier\Source\GoogleFinanceSource; //remove to collection
-use Portfolier\Entity\Quotations\PortfolioQuotations;
 use Portfolier\Entity\User;
 use Portfolier\Entity\Portfolio;
 use Portfolier\Entity\Stock;

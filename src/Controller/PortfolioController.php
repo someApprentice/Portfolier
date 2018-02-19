@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Portfolier\Service\Authorizer;
 use Portfolier\Service\Portfolier;
+use Portfolier\Collection\SourceCollection;
 use Portfolier\Entity\Portfolio;
 
 class PortfolioController extends Controller
@@ -60,9 +61,36 @@ class PortfolioController extends Controller
             return $this->redirectToRoute('index');
         }
 
-        $portfolios = $portfolier->getUserPortfolios($logged);
-
         return $this->render('portfolios.html.twig', ['logged' => $logged]);
+    }
+
+    public function portfolio(Request $request, $id): Response
+    {
+        $authorizer = $this->container->get(Authorizer::class);
+
+        $portfolier = $this->container->get(Portfolier::class);
+
+        $sources = $this->container->get(\Portfolier\Collection\SourceCollection::class);
+
+        $logged = $authorizer->getLogged();
+
+        if (!$logged) {
+            return $this->redirectToRoute('index');
+        }
+
+        $portfolio = $portfolier->getPortfolio($id);
+
+        if (!$portfolio) {
+            return $this->redirectToRoute('portfolios');
+        }
+
+        $quotations = [];
+
+        foreach ($sources->getSources() as $key => $source) {
+            $quotations[$key] = $portfolio->getQuotations($source);
+        }
+
+        return $this->render('portfolio.html.twig', ['logged' => $logged, 'portfolio' => $portfolio, 'quotations' => $quotations]);
     }
 
     public function edit(Request $request, $id): Response

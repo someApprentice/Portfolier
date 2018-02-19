@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    {{ parent() }}
+
+    <h3>{{ portfolio.name }}</h3>
+
+    <a href="{{ path('delete_portfolio', {'id': portfolio.id}) }}">Delete Portfolio</a>
+
+    <div class="stocks">
+        <h4>Stocks</h4>
+
+        <a href="{{ path('add_stock', {'portfolio_id': portfolio.id}) }}">Add Stock</a>
+
+        <ul>        
+            {% for stock in portfolio.stocks %}
+                <li>
+                    {{ stock.symbol }} 
+                    <a href="{{ path('edit_stock', {'portfolio_id': portfolio.id, 'stock_id': stock.id}) }}">Edit</a>
+                    <a href="{{ path('delete_stock', {'portfolio_id': portfolio.id, 'stock_id': stock.id}) }}">Delete</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h4 class="card-title">Contents</h4>
+
+                {% for source, exchanges in quotations %}
+                    <ul>
+                        <li>
+                            <a href="{{ path('portfolio', {'id': portfolio.id, '_fragment': source}) }}">{{source}}</a>
+
+                            <ul>
+                                {% for exchange, q in exchanges %}
+                                    <li><a href="{{ path('portfolio', {'id': portfolio.id, '_fragment': exchange}) }}">{{ exchange }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                {% endfor %}
+            </div>
+        </div>
+
+
+        {% for source, exchanges in quotations %}
+            <div class="quotations m-2 p-2">
+                <h5 id="{{ source }}">{{source}}</h5>
+
+                {% for exchange, q in exchanges %}
+                    <h6 id="{{ exchange }}">{{ exchange }}</h6>
+
+                    <em>Profit for the last year:</em> {{ q.calculateProfit * 100 }}%
+
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Date</th>
+                          <th scope="col">Close</th>
+                          <th scope="col">High</th>
+                          <th scope="col">Low</th>
+                          <th scope="col">Open</th>
+                          <th scope="col">Value</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for quotation in q.quotations %}
+                            <tr>
+                              <th scope="row">{{ quotation.date|date("d/m/Y H:i:s") }}</th>
+                              <td>{{ quotation.close }}</td>
+                              <td>{{ quotation.high }}</td>
+                              <td>{{ quotation.low }}</td>
+                              <td>{{ quotation.open }}</td>
+                              <td>{{ quotation.value }}</td>
+                            </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

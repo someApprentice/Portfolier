@@ -9,8 +9,8 @@
         <a href="{{ path("new_portfolio") }}">Create a new Portfolio</a>
 
         {% for portfolio in logged.portfolios %}
-            <div class="portfolio">
-                <em>{{ portfolio.name }}</em>
+            <div class="portfolio border my-2 p-2">
+                <a href={{ path("portfolio", {'id': portfolio.id}) }}>{{ portfolio.name }}</a>
 
                 <a href={{ path("edit_portfolio", {'id': portfolio.id}) }}>Edit</a>
                 <a href={{ path("delete_portfolio", {'id': portfolio.id}) }}>Delete</a>

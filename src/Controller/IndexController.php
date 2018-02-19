@@ -15,12 +15,12 @@ use Portfolier\Service\Authorizer;
 class IndexController extends Controller
 {
     /**
-    * Index page
-    *
-    * @param Symfony\Component\HttpFoundation\Request $request HTTP request 
-    *
-    * @return Symfony\Component\HttpFoundation\Response 
-    */
+     * Index page
+     *
+     * @param Symfony\Component\HttpFoundation\Request $request HTTP request 
+     *
+     * @return Symfony\Component\HttpFoundation\Response 
+     */
     public function index(Request $request): Response
     {
         $authorizer = $this->container->get(Authorizer::class);
@@ -40,6 +40,6 @@ class IndexController extends Controller
             return $this->render('login.html.twig', ['loginForm' => $loginForm->createView()]);
         }
 
-        return $this->render('index.html.twig', ['logged' => $logged]);
+        return $this->render('portfolios.html.twig', ['logged' => $logged]);
     }
 }

@@ -38,12 +38,34 @@ class PortfolioQuotationTest extends KernelTestCase
 
         $portfolio = new Portfolio();
 
-        $stock = new Stock();
-        $stock->setPortfolio($portfolio);
-        $stock->setSymbol("AAPL");
-        $stock->setDate();
+        $aapl = new Stock();
+        $aapl->setPortfolio($portfolio);
+        $aapl->setSymbol("AAPL");
+        $aapl->setDate();
 
-        $portfolio->setStocks([$stock]);
+        $goog = new Stock();
+        $goog->setPortfolio($portfolio);
+        $goog->setSymbol("GOOG");
+        $goog->setDate();
+
+        $yahoo = new Stock();
+        $yahoo->setPortfolio($portfolio);
+        $yahoo->setSymbol("YAHOF");
+        $yahoo->setDate();
+
+        $sber = new Stock();
+        $sber->setPortfolio($portfolio);
+        $sber->setSymbol("SBER");
+        $sber->setDate();
+
+        $gazp = new Stock();
+        $gazp->setPortfolio($portfolio);
+        $gazp->setSymbol("GAZP");
+        $gazp->setDate();
+
+        $stocks = [$aapl, $goog, $yahoo, $sber, $gazp];
+
+        $portfolio->setStocks($stocks);
 
         foreach ($sources->getSources() as $source) {
             $quotations = $portfolio->getQuotations($source);

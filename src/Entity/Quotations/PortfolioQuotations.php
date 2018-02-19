@@ -29,6 +29,10 @@ class PortfolioQuotations extends AbstractPortfolioQuotations
      */
     public function calculateProfit(): float
     {
+        if ($this->exchange == "UNKNOWN") {
+            return 0;
+        }
+
         $q = $this->quotations;
 
         $beginningOfPeriod = $q[count($q) - 1];
@@ -36,11 +40,15 @@ class PortfolioQuotations extends AbstractPortfolioQuotations
         $lastYear = new \DateTime($beginningOfPeriod['date']->format('Y-m-d H:i:s') . "-1 year");
 
         foreach ($q as $quotation) {
-            if ($quotation['date'] == $lastYear) {
+            if ($quotation['date'] >= $lastYear) {
                 $endOfPeriod = $quotation;
                 
                 break;
             }
+        }
+
+        if ($endOfPeriod['close'] == 0) {
+            return 1;
         }
 
         $profit = ($beginningOfPeriod['close'] - $endOfPeriod['close']) / $endOfPeriod['close'];

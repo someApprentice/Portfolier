@@ -3,22 +3,42 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Portfolier{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+
+        {% block stylesheets %}
+            <link rel="stylesheet" href="/css/bootstrap.min.css">
+        {% endblock %}
+
+        {% block javascripts %}
+            <script src="/js/bootstrap.min.js"></script>
+        {% endblock %}
     </head>
     <body>
-        {% block body %}
-            <h1><a href="/">Portfolier</a></h1>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            {% block header %}
+                <h1 class="navbar-brand"><a href="{{ path('index') }}">Portfolier</a></h1>
+                
+                {% if logged is defined %}
+                      <div class="collapse navbar-collapse">
+                        <div class="navbar-nav">
+                          <a class="nav-item nav-link" href="{{ path('portfolios') }}">Portfolios</a>
+                        </div>
+                      </div>
 
-            {% if logged is defined %}
-                <form name="logout-form" method="post" action="/logout/">
-                    <b>{{ logged.getName }}</b>
-                    <input type="submit" name="logout" value="Logout">
-                </form>
-            {% endif %}
+           
+                    <form name="logout-form" method="post" class="form-inline" action="/logout/">
+                        <div class="form-group">
+                             <label class="col-sm-2 col-form-label">{{ logged.getName }}</label>
+                        </div>
 
-            <a href="{{ path('portfolios') }}">Portfolios</a>
-        {% endblock %}
-        
-        {% block javascripts %}{% endblock %}
+                        <input type="submit" name="logout" class="btn btn-outline-success" value="Logout">
+                    </form>
+                {% endif %}
+            {% endblock %}
+        </nav>
+
+        <div class="container">
+            {% block body %}
+            {% endblock %}
+        </div>
     </body>
 </html>

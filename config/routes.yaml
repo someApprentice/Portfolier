@@ -22,6 +22,10 @@ portfolios:
   path: /portfolios/
   controller: Portfolier\Controller\PortfolioController::portfolios
 
+portfolio:
+  path: /portfolio/{id}/
+  controller: Portfolier\Controller\PortfolioController::portfolio
+
 edit_portfolio:
   path: /portfolio/edit/{id}/
   controller: Portfolier\Controller\PortfolioController::edit
