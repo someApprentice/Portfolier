@@ -26,7 +26,7 @@ class Portfolio
     /**
      * @ORM\Column(type="string")
      *
-     * @Assert\Regex("/^\w+$/")
+     * @Assert\Regex("/^\w+(\s*\w*)*$/")
      * @Assert\Length(min = 3, max = 255)
      *
      * @var string A Portfolio name
