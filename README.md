@@ -3,6 +3,8 @@
 Service for creation  afinance Portfolio and combinate it with a Stocks<br />
 Service allow you to observe your Portfolio quotations for the last two years and calculate profit rate for the last year
 
+Demonstration: https://limitless-sands-73939.herokuapp.com/
+
 Implemented via:
 * Symfony
 * Doctrine
