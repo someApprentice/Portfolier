@@ -57,7 +57,7 @@ class StockController extends Controller
             $stock = $portfolier->addStock($stock);
 
             if ($stock) {
-                return $this->redirectToRoute('edit_portfolio', ['id' => $portfolio_id]);
+                return $this->redirectToRoute('portfolio', ['id' => $portfolio_id]);
             }
         }
 
