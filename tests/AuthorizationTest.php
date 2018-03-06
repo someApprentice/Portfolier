@@ -42,7 +42,7 @@ class AuthorizationTest extends KernelTestCase
 
         $user = new User();
         $user->setEmail($email);
-        $user->setName($name);
+        $user->setUsername($name);
         $user->setPassword($password);
 
         $authorizer = new Authorizer($em);
@@ -52,37 +52,6 @@ class AuthorizationTest extends KernelTestCase
         $repository = $em->getRepository(User::class);
 
         $user = $repository->findOneBy(['email' => $email]);
-
-        $this->assertInstanceOf(User::class, $user);
-    }
-
-    /**
-     * @runInSeparateProcess
-     */
-    public function testLogin()
-    {
-        $em = $this->em;
-
-        $faker = \Faker\Factory::create();
-
-        $email = $faker->email;
-        $name = $faker->userName;
-        $password = $faker->password;
-
-        $user = new User();
-        $user->setEmail($email);
-        $user->setName($name);
-        $user->setPassword($password);
-
-        $authorizer = new Authorizer($em);
-
-        $authorizer->register($user);
-
-        $user = new User();
-        $user->setEmail($email);
-        $user->setPassword($password);
-
-        $user = $authorizer->login($user);
 
         $this->assertInstanceOf(User::class, $user);
     }

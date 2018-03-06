@@ -46,8 +46,10 @@ class PortfolierTest extends KernelTestCase
 
         $user = new User();
         $user->setEmail($faker->email);
-        $user->setName($faker->userName);
-        $user->setPassword($faker->password);
+        $user->setUsername($faker->userName);
+        $user->setPlainPassword($faker->password);
+
+        var_dump($user->getUsername());
 
         $user = $authorizer->register($user);
 
@@ -85,8 +87,8 @@ class PortfolierTest extends KernelTestCase
 
         $user = new User();
         $user->setEmail($faker->email);
-        $user->setName($faker->userName);
-        $user->setPassword($faker->password);
+        $user->setUsername($faker->userName);
+        $user->setPlainPassword($faker->password);
 
         $user = $authorizer->register($user);
 
@@ -116,8 +118,8 @@ class PortfolierTest extends KernelTestCase
 
         $user = new User();
         $user->setEmail($faker->email);
-        $user->setName($faker->userName);
-        $user->setPassword($faker->password);
+        $user->setUsername($faker->userName);
+        $user->setPlainPassword($faker->password);
 
         $user = $authorizer->register($user);
 
@@ -151,8 +153,8 @@ class PortfolierTest extends KernelTestCase
 
         $user = new User();
         $user->setEmail($faker->email);
-        $user->setName($faker->userName);
-        $user->setPassword($faker->password);
+        $user->setUsername($faker->userName);
+        $user->setPlainPassword($faker->password);
 
         $user = $authorizer->register($user);
 
@@ -207,8 +209,8 @@ class PortfolierTest extends KernelTestCase
 
         $user = new User();
         $user->setEmail($faker->email);
-        $user->setName($faker->userName);
-        $user->setPassword($faker->password);
+        $user->setUsername($faker->userName);
+        $user->setPlainPassword($faker->password);
 
         $user = $authorizer->register($user);
 
@@ -247,8 +249,8 @@ class PortfolierTest extends KernelTestCase
 
         $user = new User();
         $user->setEmail($faker->email);
-        $user->setName($faker->userName);
-        $user->setPassword($faker->password);
+        $user->setUsername($faker->userName);
+        $user->setPlainPassword($faker->password);
 
         $user = $authorizer->register($user);
 

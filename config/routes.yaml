@@ -12,7 +12,6 @@ login:
 
 logout:
   path: /logout/
-  controller: Portfolier\Controller\AuthorizationController::logout
 
 new_portfolio:
   path: /portfolio/new/

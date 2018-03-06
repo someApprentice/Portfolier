@@ -3,6 +3,7 @@ namespace Portfolier\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 use Portfolier\Entity\Portfolio;
 
@@ -10,7 +11,7 @@ use Portfolier\Entity\Portfolio;
  * @ORM\Entity(repositoryClass="Portfolier\Repository\UserRepository")
  * @ORM\Table(name="`user`")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -39,7 +40,7 @@ class User
      *
      * @var string An User name
      */
-    private $name = '';
+    private $username = '';
 
     /**
      * @ORM\Column(type="string")
@@ -115,9 +116,9 @@ class User
      *
      * @return string
      */
-    public function getName(): string
+    public function getUsername(): string
     {
-        return $this->name;
+        return $this->username;
     }
 
     /**
@@ -127,9 +128,9 @@ class User
      *
      * @return Portfolier\Entity\User
      */
-    public function setName(string $name): User
+    public function setUsername(string $name): User
     {
-        $this->name = $name;
+        $this->username = $name;
 
         return $this;
     }
@@ -139,7 +140,7 @@ class User
      *
      * @return string
      */
-    public function getHash(): string
+    public function getPassword(): string
     {
         return $this->hash;
     }
@@ -151,7 +152,7 @@ class User
      *
      * @return Portfolier\Entity\User
      */
-    public function setHash(string $hash): User
+    public function setPassword(string $hash): User
     {
         $this->hash = $hash;
 
@@ -163,7 +164,7 @@ class User
      *
      * @return string
      */
-    public function getPassword(): string
+    public function getPlainPassword(): string
     {
         return $this->password;
     }
@@ -175,11 +176,25 @@ class User
      *
      * @return Portfolier\Entity\User
      */
-    public function setPassword(string $password): User
+    public function setPlainPassword(string $password): User
     {
         $this->password = $password;
 
         return $this;
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function eraseCredentials()
+    {
     }
 
     public function getPortfolios()

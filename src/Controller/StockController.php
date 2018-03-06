@@ -24,15 +24,11 @@ class StockController extends Controller
      */
     public function add(Request $request, $portfolio_id): Response
     {
-        $authorizer = $this->container->get(Authorizer::class);
-
         $portfolier = $this->container->get(Portfolier::class);
 
-        $logged = $authorizer->getLogged();
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        if (!$logged) {
-            return $this->redirectToRoute('index');
-        }
+        $logged = $this->getUser();
 
         $portfolio = $portfolier->getPortfolio($portfolio_id);
 
@@ -75,15 +71,11 @@ class StockController extends Controller
      */
     public function edit(Request $request, $portfolio_id, $stock_id): Response
     {
-        $authorizer = $this->container->get(Authorizer::class);
-
         $portfolier = $this->container->get(Portfolier::class);
 
-        $logged = $authorizer->getLogged();
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        if (!$logged) {
-            return $this->redirectToRoute('index');
-        }
+        $logged = $this->getUser();
 
         $portfolio = $portfolier->getPortfolio($portfolio_id);
 
@@ -127,15 +119,11 @@ class StockController extends Controller
      */
     public function delete(Request $request, $portfolio_id, $stock_id): Response
     {
-        $authorizer = $this->container->get(Authorizer::class);
-
         $portfolier = $this->container->get(Portfolier::class);
 
-        $logged = $authorizer->getLogged();
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        if (!$logged) {
-            return $this->redirectToRoute('index');
-        }
+        $logged = $this->getUser();
 
         $portfolio = $portfolier->getPortfolio($portfolio_id);
 

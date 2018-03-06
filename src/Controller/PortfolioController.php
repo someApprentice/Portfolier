@@ -23,15 +23,11 @@ class PortfolioController extends Controller
      */
     public function new(Request $request): Response
     {
-        $authorizer = $this->container->get(Authorizer::class);
-
         $portfolier = $this->container->get(Portfolier::class);
 
-        $logged = $authorizer->getLogged();
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        if (!$logged) {
-            return $this->redirectToRoute('index');
-        }
+        $logged = $this->getUser();
 
         $portfolio = new Portfolio();
 
@@ -65,15 +61,11 @@ class PortfolioController extends Controller
      */
     public function portfolios(Request $request): Response
     {
-        $authorizer = $this->container->get(Authorizer::class);
-
         $portfolier = $this->container->get(Portfolier::class);
 
-        $logged = $authorizer->getLogged();
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        if (!$logged) {
-            return $this->redirectToRoute('index');
-        }
+        $logged = $this->getUser();
 
         return $this->render('portfolios.html.twig', ['logged' => $logged]);
     }
@@ -88,17 +80,13 @@ class PortfolioController extends Controller
      */
     public function portfolio(Request $request, $id): Response
     {
-        $authorizer = $this->container->get(Authorizer::class);
-
         $portfolier = $this->container->get(Portfolier::class);
 
         $sources = $this->container->get(\Portfolier\Collection\SourceCollection::class);
 
-        $logged = $authorizer->getLogged();
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        if (!$logged) {
-            return $this->redirectToRoute('index');
-        }
+        $logged = $this->getUser();
 
         $portfolio = $portfolier->getPortfolio($id);
 
@@ -125,15 +113,11 @@ class PortfolioController extends Controller
      */
     public function edit(Request $request, $id): Response
     {
-        $authorizer = $this->container->get(Authorizer::class);
-
         $portfolier = $this->container->get(Portfolier::class);
 
-        $logged = $authorizer->getLogged();
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        if (!$logged) {
-            return $this->redirectToRoute('index');
-        }
+        $logged = $this->getUser();
 
         $portfolio = $portfolier->getPortfolio($id);
 
@@ -172,15 +156,11 @@ class PortfolioController extends Controller
      */
     public function delete(Request $request, $id): Response
     {
-        $authorizer = $this->container->get(Authorizer::class);
-
         $portfolier = $this->container->get(Portfolier::class);
 
-        $logged = $authorizer->getLogged();
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        if (!$logged) {
-            return $this->redirectToRoute('index');
-        }
+        $logged = $this->getUser();
 
         $portfolio = $portfolier->getPortfolio($id);
 

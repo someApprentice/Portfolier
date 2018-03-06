@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\Response;
 
 use Portfolier\Entity\User;
@@ -27,7 +28,7 @@ class AuthorizationController extends Controller
     {
         $authorizer = $this->container->get(Authorizer::class);
 
-        if ($authorizer->isLoggedIn()) {
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('index');
         }
 
@@ -35,8 +36,8 @@ class AuthorizationController extends Controller
 
         $registrationForm = $this->createFormBuilder($user)
                   ->add('email', EmailType::class)
-                  ->add('name', TextType::class)
-                  ->add('password', RepeatedType::class, [
+                  ->add('username', TextType::class)
+                  ->add('plainPassword', RepeatedType::class, [
                       'type' => PasswordType::class,
                       'invalid_message' => 'The password fields must match.',
                       'required' => true,
@@ -54,10 +55,10 @@ class AuthorizationController extends Controller
         if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
             $user = $registrationForm->getData();
 
-            $user = $authorizer->register($user);
+            if (!$authorizer->isExist($user)) {
+                $user = $authorizer->register($user);
 
-            if ($user) {
-                return $this->redirectToRoute('index');
+                return $this->redirectToRoute('login');
             }
 
             $registrationForm->get('email')->addError(new FormError("This User is already exist"));
@@ -69,42 +70,30 @@ class AuthorizationController extends Controller
     /**
      * Login page
      *
-     * @param Symfony\Component\HttpFoundation\Request $request HTTP request 
+     * @param Symfony\Component\HttpFoundation\Request $request HTTP request
+     * @param Symfony\Component\Security\Http\Authentication\AuthenticationUtils
      *
      * @return Symfony\Component\HttpFoundation\Response 
      */
-    public function login(Request $request): Response
+    public function login(Request $request,  AuthenticationUtils $authUtils): Response
     {
-        $authorizer = $this->container->get(Authorizer::class);
-
-        if ($authorizer->isLoggedIn()) {
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('index');
         }
 
         $user = new User();
 
+        $error = $authUtils->getLastAuthenticationError();
+
+        $lastUsername = $authUtils->getLastUsername();
+
         $loginForm = $this->createFormBuilder($user)
-                  ->add('email', EmailType::class)
-                  ->add('password', PasswordType::class)
+                  ->add('_email', EmailType::class)
+                  ->add('_password', PasswordType::class)
                   ->add('login', SubmitType::class, ['label' => 'Login'])
                   ->getForm();
 
-
-        $loginForm->handleRequest($request);
-
-        if ($loginForm->isSubmitted() && $loginForm->isValid()) {
-            $user = $loginForm->getData();
-
-            $user = $authorizer->login($user);
-
-            if ($user) {
-                return $this->redirectToRoute('index');
-            }
-
-            $loginForm->get('email')->addError(new FormError("The email or password is incorrect"));
-        }
-
-        return $this->render('login.html.twig', ['loginForm' => $loginForm->createView()]);
+        return $this->render('login.html.twig', ['loginForm' => $loginForm->createView(), 'lastUsername' => $lastUsername, 'error' => $error]);
     }
 
     /**
@@ -112,18 +101,10 @@ class AuthorizationController extends Controller
      *
      * @param Symfony\Component\HttpFoundation\Request $request HTTP request 
      *
-     * @return Symfony\Component\HttpFoundation\Response 
+     * @throws \Excpetion If somehow this reached
      */
     public function logout(Request $request): Response
     {
-        $authorizer = $this->container->get(Authorizer::class);
-
-        $logged = $authorizer->getLogged();
-
-        if ($logged) {
-            $authorizer->logout();
-        }
-
-        return $this->redirectToRoute('index');
+        throw new \Exception('This should never be reached!');
     }
 }
